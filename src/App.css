@@ -1,0 +1,13 @@
+.authContainer{
+  background-image: url('../src/assets/images/da87cd52923ebecef90e1f43751cfebc.jpeg');
+  background-size: cover;
+  
+}
+.bg-overlay{
+  background: linear-gradient(to right,#2f8c6198, #0000006c );
+}
+.authContainer .logo{
+  width: 230px;
+
+  
+}
