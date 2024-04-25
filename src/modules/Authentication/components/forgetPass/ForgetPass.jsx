@@ -32,8 +32,8 @@ export default function ForgetPass()
     <div className='container-fluid vh-100 bg-overlay'>
       <div className="row vh-100  justify-content-center align-items-center">
         <div className="col-md-6 bg-white p-4  border border-3 ">
-        <div className="text-center">
-                <img className="logo" src={logo} />
+        <div className="text-center logo-div">
+                <img className="logo " src={logo} />
               </div>
               <div className="form-content">
                 <h3>Forgot Your Password?</h3>

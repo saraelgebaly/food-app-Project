@@ -1,3 +1,6 @@
+*{
+  overflow: hidden;
+}
 .authContainer{
   background-image: url('../src/assets/images/da87cd52923ebecef90e1f43751cfebc.jpeg');
   background-size: cover;
@@ -8,6 +11,31 @@
 }
 .authContainer .logo{
   width: 230px;
+  padding: 0px;
 
   
+}
+.logo-div{
+  height: 100px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.bg-img{
+  background-image: url('../src/assets/images/not-found-bg.png');
+  background-size:cover;
+  background-position: bottom right ;
+ 
+}
+
+.text-color1{
+  color: #1F263E;
+  font-weight: 600;
+}
+.text-color2{
+  color: #1F263E;
+}
+
+.logo-img{
+  width: 250px;
 }

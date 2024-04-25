@@ -38,7 +38,7 @@ export default function Login({saveLoginData})
         <div className="container-fluid vh-100 bg-overlay">
           <div className="row vh-100  justify-content-center align-items-center">
             <div className="col-md-6 bg-white p-4  border border-3 ">
-              <div className="text-center">
+              <div className="text-center logo-div">
                 <img className="logo" src={logo} />
               </div>
               <div className="form-content">
@@ -71,7 +71,7 @@ export default function Login({saveLoginData})
                     <i className="fa-solid fa-lock"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     placeholder="Password"
                     {...register("password", {
