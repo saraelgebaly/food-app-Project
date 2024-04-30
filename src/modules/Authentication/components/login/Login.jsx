@@ -15,13 +15,14 @@ export default function Login({saveLoginData})
     handleSubmit,
     formState: { errors },
   } = useForm();
+  
 
   const onSubmit = async (data) =>  {
     try {
       const response = await axios.post("https://upskilling-egypt.com:3006/api/v1/Users/Login", data)
   
     toast.success("logged in successfully");
-   navigate('/dashboard')
+   navigate('/dashboard',{replace:true})
    localStorage.setItem('token',response.data.token);
    saveLoginData();
 

@@ -30,6 +30,8 @@ function App() {
       saveLoginData();
     }
   }, []);
+  const login = localStorage.getItem("token")
+  
   let routes = createBrowserRouter([
     {
       path: "Dashboard",
@@ -52,8 +54,8 @@ function App() {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login saveLoginData={saveLoginData} /> },
-        { path: "login", element: <Login saveLoginData={saveLoginData} /> },
+        { path:"/", element:login? <MasterLayout/>: <Login  saveLoginData={saveLoginData} /> },
+        { path: "login", element: login? <MasterLayout/>: <Login saveLoginData={saveLoginData} /> },
         { path: "register", element: <Register /> },
         { path: "forgetPass", element: <ForgetPass /> },
         { path: "resetPass", element: <ResetPass /> },

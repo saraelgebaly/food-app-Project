@@ -3,20 +3,22 @@ import SideBar from '../sideBar/SideBar'
 import Navbar from '../navbar/Navbar'
 import Header from '../header/Header'
 import { Outlet } from 'react-router-dom'
+import headerLogo from '../../../../assets/images/home-avatar.svg'
 
 export default function MasterLayout({loginData}) {
   return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col-md-3'>
+    
+      <div className='d-flex' >
+        <div>
           <SideBar/>
         </div>
-        <div className='col-md-9'>
+        <div className='w-100'>
           <Navbar loginData ={loginData}/>
-          <Header/>
+        
           <Outlet/>
+         
         </div>
       </div>
-    </div>
+  
   )
 }

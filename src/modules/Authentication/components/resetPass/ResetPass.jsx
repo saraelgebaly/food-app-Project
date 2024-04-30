@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import logo from "../../../.../../../assets/images/74297541930ad229a0eda19379889be7.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -11,7 +11,10 @@ export default function ResetPass() {
     register,
     handleSubmit,
     formState: { errors },
+    watch
   } = useForm();
+  const password = useRef({})
+  password.current = watch("password","")
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
@@ -94,7 +97,7 @@ export default function ResetPass() {
                 </div>
                 {errors.password && (
                   <p className="alert alert-danger">
-                    {errors.password.message}{" "}
+                    {errors.password.message}
                   </p>
                 )}
 
@@ -108,12 +111,14 @@ export default function ResetPass() {
                     placeholder="Confirm new password"
                     {...register("confirmPassword", {
                       required: "Confirm New Password is required",
+                      validate : value =>
+                      value === password.current || "The passwords do not match"
                     })}
                   />
                 </div>
                 {errors.confirmPassword && (
                   <p className="alert alert-danger">
-                    {errors.confirmPassword.message}{" "}
+                    {errors.confirmPassword.message}
                   </p>
                 )}
 
