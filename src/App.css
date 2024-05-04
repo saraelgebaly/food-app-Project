@@ -48,6 +48,8 @@
   background-color: #1F263E;
   color: #ffffff;
   height: 100vh;
+    border-radius: 0 40px 0 0;
+
 }
 
 .sidebar-container .ps-sidebar-container .ps-menu-button:hover {
@@ -57,13 +59,7 @@
 .toggle {
   cursor: pointer;
 }
-.sidebar-container{
-  border-radius: 0 40px 0 0;
-  -webkit-border-radius: 0 40px 0 0;
-  -moz-border-radius: 0 40px 0 0;
-  -ms-border-radius: 0 40px 0 0;
-  -o-border-radius: 0 40px 0 0;
-}
+
 .header-container{
   background-image: url("../src/assets/images/header-bg-svg.svg") ;
   background-size: cover;
@@ -76,4 +72,7 @@
 }
 .recipes-img{
   width: 50px;
+}
+.recipe-header-container{
+  background-color: #F0FFEF;
 }

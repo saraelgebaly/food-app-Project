@@ -3,7 +3,7 @@ import React from "react";
 export default function Header({title, description, imgUrl}) {
   return (
     <>
-      <div className="container-fluid header-container mx-1 px-5">
+      <div className="container-fluid header-container mx-1 my-3 px-5">
         <div className="row align-items-center">
           <div className="col-md-8">
             <div className="content">

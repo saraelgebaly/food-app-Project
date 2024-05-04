@@ -82,7 +82,7 @@ export default function Login({saveLoginData})
                 </div>
                 {errors.password && <p className="alert alert-danger">{errors.password.message}</p>}
                 <div className="links d-flex justify-content-between my-3">
-                  <a>Register Now?</a>
+                  <Link className="text-decoration-none text-black" to="/register">Register Now?</Link>
                   <Link className="text-decoration-none text-success" to='/forgetPass' >Forget Password?</Link>
                 </div>
                 <button className="btn btn-success w-100">Login</button>

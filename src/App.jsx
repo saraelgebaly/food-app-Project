@@ -17,6 +17,8 @@ import ResetPass from "./modules/Authentication/components/resetPass/ResetPass";
 import { ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/SharedModule/components/protectedRoute/ProtectedRoute";
+import RecipesData from "./modules/RecipesModule/components/RecipesData/RecipesData";
+import VerifyAccount from "./modules/Authentication/components/VerifyAccount/VerifyAccount";
 
 function App() {
   let [loginData, setLoginData] = useState(null);
@@ -45,6 +47,7 @@ function App() {
         { index: true, element: <Dashboard /> },
         { path: "home", element: <Dashboard /> },
         { path: "recipes", element: <RecipesList /> },
+        { path: "recipesData", element: <RecipesData /> },
         { path: "categories", element: <CategoriesList /> },
         { path: "users", element: <UsersList /> },
       ],
@@ -58,7 +61,7 @@ function App() {
         { path: "login", element: login? <MasterLayout/>: <Login saveLoginData={saveLoginData} /> },
         { path: "register", element: <Register /> },
         { path: "forgetPass", element: <ForgetPass /> },
-        { path: "resetPass", element: <ResetPass /> },
+        { path: "verifyAccount", element: <VerifyAccount /> },
       ],
     },
   ]);

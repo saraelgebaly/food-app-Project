@@ -13,12 +13,14 @@ export default function CategoriesList() {
   const [categoriesList, setCategoriesList] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
+  const [nameValue, setNameValue] = useState([])
+  const [arrayOfPages, setArrayOfPages] = useState([]);
 
-  
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const [showDelete, setShowDelete] = useState(false);
 
   const handleDeleteClose = () => setShowDelete(false);
@@ -29,19 +31,26 @@ export default function CategoriesList() {
   const [showEdit, setShowEdit] = useState(false);
 
   const handleEditClose = () => setShowEdit(false);
-  const handleEditShow = (id,name) => {
+  const handleEditShow = (id, name) => {
     setCategoryName(name);
     setCategoryId(id);
     setShowEdit(true);
   };
-  const getCategoriesList = async () => {
+  const getCategoriesList = async (name, pageSize, pageNumber) => {
     try {
       const response = await axios.get(
-        "https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=10&pageNumber=1",
+        `https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
 
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: {
+            name: name,
+          },
         }
+      );
+      setArrayOfPages(Array(response.data.totalNumberOfPages)
+        .fill()
+        .map((_, i) => i + 1)
       );
       setCategoriesList(response.data.data);
     } catch (error) {
@@ -88,36 +97,29 @@ export default function CategoriesList() {
     }
   };
   const getCategoryById = async (i) => {
-    
-
     try {
       const res = await axios.get(
         `https://upskilling-egypt.com:3006/api/v1/Category/${categoryId}`,
-        
-      
-        
-        
+
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-
-       
     } catch (error) {
       console.log(error);
     }
   };
-  
-  const onEditSubmit = async (e) => {
-    e.preventDefault();
-    
+
+  const onEditSubmit = async () => {
+    // e.preventDefault();
+
     try {
       const response = await axios.put(
         `https://upskilling-egypt.com:3006/api/v1/Category/${categoryId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
-      )
+      );
       console.log(response);
       toast.success("Successfully Edit category");
       handleEditClose();
@@ -126,9 +128,15 @@ export default function CategoriesList() {
       toast.error(error.response.message);
     }
   };
-
+  const handleInput = (e) => {
+    console.log(e.target.value);
+  };
+  const getNameValue = (input) => {
+    setNameValue(input.target.value);
+    getCategoriesList(input.target.value,15,1);
+  };
   useEffect(() => {
-    getCategoriesList();
+    getCategoriesList("",15,1);
     getCategoryById();
   }, []);
 
@@ -187,9 +195,8 @@ export default function CategoriesList() {
               <input
                 type="text"
                 className="form-control"
-                value={categoryName}             
-                onChange={e=>setCategoryName(e.target.value)}
-
+                // value={categoryName}
+                onChange={handleInput}
                 {...register("name", {
                   required: "category name is required",
                 })}
@@ -218,6 +225,18 @@ export default function CategoriesList() {
             </button>
           </div>
         </div>
+        <div className="fileration my-3">
+          <div className="row">
+            <div className="col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="search by category name..."
+                onChange={getNameValue}
+              />
+            </div>
+          </div>
+        </div>
         <table className="table">
           <thead>
             <tr>
@@ -236,12 +255,12 @@ export default function CategoriesList() {
                   <td>{item.creationDate} </td>
                   <td>
                     <i
-                      onClick={() => handleEditShow(item.id,item.name)}
-                      className="fa fa-edit mx-2"
+                      onClick={() => handleEditShow(item.id, item.name)}
+                      className="fa fa-edit mx-2 text-success"
                     ></i>
                     <i
                       onClick={() => handleDeleteShow(item.id)}
-                      className="fa fa-trash"
+                      className="fa fa-trash text-danger"
                     ></i>
                   </td>
                 </tr>
@@ -251,6 +270,34 @@ export default function CategoriesList() {
             )}
           </tbody>
         </table>
+        <nav
+          aria-label="Page navigation example"
+          className="d-flex justify-content-center"
+        >
+          <ul className="pagination">
+            <li className="page-item">
+              <a className="page-link text-success" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {arrayOfPages.map((pageNo) => (
+              <li
+                onClick={() =>
+                  getCategoriesList(nameValue,15,pageNo)
+                }
+                className="page-item"
+              >
+                <a className="page-link text-success">{pageNo}</a>
+              </li>
+            ))}
+
+            <li className="page-item">
+              <a className="page-link text-success" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   );
