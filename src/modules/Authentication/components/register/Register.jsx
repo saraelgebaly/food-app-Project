@@ -1,12 +1,20 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../../.../../../assets/images/74297541930ad229a0eda19379889be7.png";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { AuthContext } from "../../../../Context/AuthContext";
+import { ToastContext } from "../../../../Context/ToastContext";
 
 export default function Register() {
+  let {baseUrl} = useContext(AuthContext)
+  let {getToastValue} = useContext(ToastContext)
+
+
+  const [visible, setVisible] = useState(false);
+
   const navigate = useNavigate();
   let {
     register,
@@ -32,14 +40,14 @@ export default function Register() {
     const registerFormData = appendToFormData(data);
     try {
       const response = await axios.post(
-        "https://upskilling-egypt.com:3006/api/v1/Users/Register",
+        `${baseUrl}/Users/Register`,
         registerFormData
       );
       console.log(response);
-      toast.success(response.data.message);
-       navigate('/verifyAccount');
+      getToastValue("success",response.data.message);
+      navigate("/verifyAccount");
     } catch (error) {
-      toast.error(error.response.data.message);
+      getToastValue("erorr",error.response.data.message);
     }
   };
   return (
@@ -150,13 +158,23 @@ export default function Register() {
                         <i className="fa-solid fa-lock"></i>
                       </span>
                       <input
-                        type="password"
-                        className="form-control"
+                        type={visible ? "text" : "password"}
+                        className="form-control z-0"
                         placeholder="Password"
                         {...register("password", {
                           required: "Password required",
                         })}
                       />
+                      <span
+                        onClick={() => setVisible(!visible)}
+                        className="pass-eye  position-absolute"
+                      >
+                        {visible ? (
+                          <i className="fa-regular fa-eye  "></i>
+                        ) : (
+                          <i className="fa-regular fa-eye-slash "></i>
+                        )}
+                      </span>
                     </div>
                     {errors.password && (
                       <p className="alert alert-danger">
@@ -170,8 +188,8 @@ export default function Register() {
                         <i className="fa-solid fa-lock"></i>
                       </span>
                       <input
-                        type="password"
-                        className="form-control"
+                        type={visible ? "text" : "password"}
+                        className="form-control z-0"
                         placeholder="Confirm Password"
                         {...register("confirmPassword", {
                           required: "Confirm Password required",
@@ -180,6 +198,16 @@ export default function Register() {
                             "The passwords do not match",
                         })}
                       />
+                       <span
+                        onClick={() => setVisible(!visible)}
+                        className="pass-eye  position-absolute"
+                      >
+                        {visible ? (
+                          <i className="fa-regular fa-eye  "></i>
+                        ) : (
+                          <i className="fa-regular fa-eye-slash "></i>
+                        )}
+                      </span>
                     </div>
                     {errors.confirmPassword && (
                       <p className="alert alert-danger">
@@ -204,7 +232,14 @@ export default function Register() {
                     </p>
                   )}
                 </div>
-
+                <div className="text-end p-2">
+                  <Link
+                    className="text-decoration-none text-success"
+                    to={"/login"}
+                  >
+                    Login Now?
+                  </Link>
+                </div>
                 <button className="btn btn-success w-100">Register</button>
               </form>
             </div>

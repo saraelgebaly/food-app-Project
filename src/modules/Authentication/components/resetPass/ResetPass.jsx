@@ -1,31 +1,38 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import logo from "../../../.../../../assets/images/74297541930ad229a0eda19379889be7.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../Context/AuthContext";
+import { ToastContext } from "../../../../Context/ToastContext";
 
 export default function ResetPass() {
+  let {baseUrl} = useContext(AuthContext)
+  let {getToastValue} = useContext(ToastContext)
+
+  const [visible, setVisible] = useState(false);
+
   const navigate = useNavigate();
   let {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm();
-  const password = useRef({})
-  password.current = watch("password","")
+  const password = useRef({});
+  password.current = watch("password", "");
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        "https://upskilling-egypt.com:3006/api/v1/Users/Reset",
+        `${baseUrl}/Users/Reset`,
         data
       );
       console.log(res);
-      toast.success(res.data.message);
-      navigate("/");
+      getToastValue("success",res.data.message);
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response.data.message);
+      getToastValue("error",error.response.data.message);
     }
   };
   return (
@@ -87,13 +94,24 @@ export default function ResetPass() {
                     <i className="fa-solid fa-lock"></i>
                   </span>
                   <input
-                    type="password"
-                    className="form-control"
+                    type={visible ? "text" : "password"}
+                    className="form-control z-0"
                     placeholder="New Password"
                     {...register("password", {
                       required: "New Password is required",
                     })}
                   />
+
+                  <span
+                    onClick={() => setVisible(!visible)}
+                    className="pass-eye  position-absolute"
+                  >
+                    {visible ? (
+                      <i className="fa-regular fa-eye  "></i>
+                    ) : (
+                      <i className="fa-regular fa-eye-slash "></i>
+                    )}
+                  </span>
                 </div>
                 {errors.password && (
                   <p className="alert alert-danger">
@@ -106,15 +124,26 @@ export default function ResetPass() {
                     <i className="fa-solid fa-lock"></i>
                   </span>
                   <input
-                    type="password"
-                    className="form-control"
+                    type={visible ? "text" : "password"}
+                    className="form-control z-0"
                     placeholder="Confirm new password"
                     {...register("confirmPassword", {
                       required: "Confirm New Password is required",
-                      validate : value =>
-                      value === password.current || "The passwords do not match"
+                      validate: (value) =>
+                        value === password.current ||
+                        "The passwords do not match",
                     })}
                   />
+                  <span
+                    onClick={() => setVisible(!visible)}
+                    className="pass-eye  position-absolute"
+                  >
+                    {visible ? (
+                      <i className="fa-regular fa-eye  "></i>
+                    ) : (
+                      <i className="fa-regular fa-eye-slash "></i>
+                    )}
+                  </span>
                 </div>
                 {errors.confirmPassword && (
                   <p className="alert alert-danger">

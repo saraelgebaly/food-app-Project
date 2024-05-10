@@ -1,27 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import { toast } from "react-toastify";
+import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../Context/AuthContext";
+import { ToastContext } from "../../../../Context/ToastContext";
 import RecipesListHeader from "../../../SharedModule/components/RecipesListHeader/RecipesListHeader";
 
 export default function RecipesData() {
+  let {baseUrl, requestHeaders} = useContext(AuthContext)
+  let { getToastValue } = useContext(ToastContext);
+
   const [categoriesList, setCategoriesList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [recipeId, setRecipeId] = useState(0);
+
+  const location = useLocation();
+  const recipe = location.state;
+
+ 
 
   const navigate = useNavigate();
   let {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const getCategoriesList = async () => {
     try {
       const response = await axios.get(
-        "https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=10&pageNumber=1",
+        `${baseUrl}/Category/?pageSize=10&pageNumber=1`,
 
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: requestHeaders,
         }
       );
       setCategoriesList(response.data.data);
@@ -32,10 +44,10 @@ export default function RecipesData() {
   const getTagsList = async () => {
     try {
       const response = await axios.get(
-        "https://upskilling-egypt.com:3006/api/v1/tag",
+        `${baseUrl}/tag`,
 
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: requestHeaders,
         }
       );
       setTagsList(response.data);
@@ -43,6 +55,20 @@ export default function RecipesData() {
       console.log(error);
     }
   };
+  const setValueInput = ()=>{
+    if(recipe){
+      setIsUpdate(true)
+      setRecipeId(recipe.id)
+      reset({
+        name : recipe.name,
+        description : recipe.description,
+        price : recipe.price,
+        tagId : recipe.tag.id,
+        categoriesIds : recipe.category[0]?.id,
+        recipeImage: recipe.recipeImage
+      })
+    }
+  }
   const appendToFormData = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -54,37 +80,56 @@ export default function RecipesData() {
 
     return formData;
   };
+  const onEditSubmit = async(data)=>{
+    const recipeFormData = appendToFormData(data);
+
+    try {
+      const response = await axios.put(
+        `${baseUrl}/Recipe/${recipeId}`,recipeFormData,
+        {
+          headers: requestHeaders,
+        }
+      );
+      console.log(response);
+      getToastValue("success","Successfully Edit Recipe");
+      navigate("/dashboard/recipes");
+    } catch (error) {
+      getToastValue("error", error.response.data.message);
+    }
+  }
 
   const onSubmit = async (data) => {
     const recipeFormData = appendToFormData(data);
     try {
       const res = await axios.post(
-        "https://upskilling-egypt.com:3006/api/v1/Recipe",
+        `${baseUrl}/Recipe`,
         recipeFormData,
 
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: requestHeaders,
         }
       );
 
-      toast.success(res.data.message);
+      getToastValue("success",res.data.message);
       navigate("/dashboard/recipes");
     } catch (error) {
-      toast.error(error.response.data.message);
+      getToastValue("error", error.response.data.message);
     }
   };
   useEffect(() => {
     getCategoriesList();
     getTagsList();
+    setValueInput()
+    
   }, []);
 
   return (
     <>
-    <RecipesListHeader/>
+      <RecipesListHeader />
       <div className="container-fluid m-3 p-3">
         <div className="row justify-content-center align-items-center">
           <div className="col-md-6 ">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(!isUpdate? onSubmit:onEditSubmit)}>
               <div className="input-group mb-3">
                 <input
                   type="text"
@@ -94,6 +139,7 @@ export default function RecipesData() {
                     required: "Recipe name is required",
                   })}
                 />
+                
               </div>
               {errors.name && (
                 <p className="alert alert-danger">{errors.name.message} </p>

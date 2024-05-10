@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../../.../../../assets/images/74297541930ad229a0eda19379889be7.png";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { AuthContext } from '../../../../Context/AuthContext';
+import { ToastContext } from '../../../../Context/ToastContext';
 
 export default function VerifyAccount() {
+  let {baseUrl} = useContext(AuthContext)
+  let {getToastValue} = useContext(ToastContext)
+
+
     const navigate = useNavigate();
 
     let {
@@ -15,12 +21,12 @@ export default function VerifyAccount() {
     } = useForm();
     const onSubmit = async (data)=> {
       try{
-        const res = await axios.put('https://upskilling-egypt.com:3006/api/v1/Users/verify',data)
+        const res = await axios.put(`${baseUrl}/Users/verify`,data)
         console.log(res);
-        toast.success(res.data.message);
+        getToastValue("success",res.data.message);
         navigate('/login')
       }catch(error){
-        toast.error(error.response.data.message);
+        getToastValue("error",error.response.data.message);
       }
    
     }

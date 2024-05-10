@@ -1,24 +1,34 @@
-import React from 'react'
-import SideBar from '../sideBar/SideBar'
-import Navbar from '../navbar/Navbar'
-import Header from '../header/Header'
-import { Outlet } from 'react-router-dom'
-import headerLogo from '../../../../assets/images/home-avatar.svg'
+import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../navbar/Navbar";
+import SideBar from "../sideBar/SideBar";
+import Loading from "../Loading/Loading";
 
-export default function MasterLayout({loginData}) {
+export default function MasterLayout({ loginData }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
   return (
-    
-      <div className='d-flex' >
-        <div>
-          <SideBar/>
+    <>
+      {isLoading ? (
+        <Loading/>
+      ) : (
+        <div className="d-flex">
+          <div>
+            <SideBar loginData={loginData} />
+          </div>
+          <div className="w-100">
+            <Navbar loginData={loginData} />
+
+            <Outlet />
+          </div>
         </div>
-        <div className='w-100'>
-          <Navbar loginData ={loginData}/>
-        
-          <Outlet/>
-         
-        </div>
-      </div>
-  
-  )
+      )}
+    </>
+  );
 }

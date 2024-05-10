@@ -4,10 +4,15 @@ import logo from "../../../.../../../assets/images/74297541930ad229a0eda19379889
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../Context/AuthContext';
 
 
 export default function ForgetPass()
  {
+  let {baseUrl} = useContext(AuthContext)
+  let {getToastValue} = useContext(ToastContainer)
+
+
   const navigate = useNavigate();
 
   let {
@@ -17,12 +22,12 @@ export default function ForgetPass()
   } = useForm();
   const onSubmit = async (data)=> {
     try{
-      const res = await axios.post('https://upskilling-egypt.com:3006/api/v1/Users/Reset/Request',data)
+      const res = await axios.post(`${baseUrl}/Users/Reset/Request`,data)
       console.log(res);
-      toast.success(res.data.message);
+      getToastValue("success",res.data.message);
       navigate('/resetPass')
     }catch(error){
-      toast.error(error.response.data.message);
+      getToastValue("error",error.response.data.message);
     }
  
   }

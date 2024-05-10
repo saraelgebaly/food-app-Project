@@ -67,6 +67,7 @@
   
   
 }
+
 .nav{
   background-color: #F8F9FB;
 }
@@ -75,4 +76,25 @@
 }
 .recipe-header-container{
   background-color: #F0FFEF;
+}
+
+
+.pass-eye {
+margin-left:92% !important;
+top: 7px !important;
+}
+
+.fav-container{
+  border-radius: 10%;
+  -webkit-border-radius: 10%;
+  -moz-border-radius: 10%;
+  -ms-border-radius: 10%;
+  -o-border-radius: 10%;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0);
+}
+.btn-icon {
+  border: none;
+  background-color: transparent;
+  font-size: 15px;
+  padding: 0;
 }
