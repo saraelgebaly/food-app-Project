@@ -278,7 +278,99 @@ export default function RecipesList() {
               </div>
             </div>
           </div>
-          <table className="table">
+          <div className="categories-body">
+      <ul className="responsive-table-categories">
+        <li className="table-header">
+          <div className="col col-1">#</div>
+          <div className="col col-2">Name</div>
+          <div className="col col-3">Image</div>
+          <div className="col col-4">Price</div>
+          <div className="col col-5">Category</div>
+          <div className="col col-6">Tag</div>
+          <div className="col col-7"></div>
+        </li>
+      </ul>
+
+      <ul className="responsive-table-categories">
+        
+        {recipesList.length > 0 ? (
+                recipesList.map((item, index) => (
+                  <li className="table-row">
+                  <div className="col col-1" data-label="#">{index + 1}</div>
+                  <div className="col col-2" data-label="Name :">{item.name}</div>
+                  <div className="col col-3" data-label="Image :">{item.imagePath ? (
+                        <img
+                          className="recipes-img"
+                          src={
+                            "https://upskilling-egypt.com:3006/" +
+                            item.imagePath
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        <img className="recipes-img" src={nodata} alt="" />
+                      )}</div>
+                  <div className="col col-4" data-label="Price :">{item.price}</div>
+                  <div className="col col-5" data-label="Category :">{item.category[0]?.name}</div>
+                  <div className="col col-6" data-label="Tag :">{item.tag.name}</div>
+                  <div className="col col-7" data-label="">
+                    
+                  {loginData.userGroup == "SuperAdmin" ? (
+                      <td>
+                        <button
+                          className="btn-icon"
+                          onClick={() => goToUpdateRecipe(item)}
+                        >
+                          <i className="fa fa-edit mx-2 text-success"></i>
+                        </button>
+                        <button
+                          className="btn-icon"
+                          onClick={() => handleDeleteShow(item.id)}
+                        >
+                          <i className="fa fa-trash text-danger"></i>
+                        </button>
+                        <button
+                          className="btn-icon"
+                          onClick={() =>
+                            handleViewShow(
+                              item.id,
+                              item.name,
+                              item.description,
+                              item.imagePath
+                            )
+                          }
+                        >
+                          <i className="fa fa-eye mx-2 text-primary"></i>
+                        </button>
+                      </td>
+                    ) : loginData.userGroup == "SystemUser" ? (
+                      <td>
+                        <button
+                          className="btn-icon"
+                          onClick={() =>
+                            handleViewShow(
+                              item.id,
+                              item.name,
+                              item.description,
+                              item.imagePath
+                            )
+                          }
+                        >
+                          <i className="fa fa-eye mx-2 text-primary"></i>
+                        </button>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  </li>
+
+                ))): (<NoData/>)}
+         
+      </ul>
+      
+    </div>
+          {/* <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -369,7 +461,7 @@ export default function RecipesList() {
                 <NoData />
               )}
             </tbody>
-          </table>
+          </table> */}
           <nav
             aria-label="Page navigation example"
             className="d-flex justify-content-center"
