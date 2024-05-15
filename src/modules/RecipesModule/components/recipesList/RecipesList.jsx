@@ -316,7 +316,7 @@ export default function RecipesList() {
                   <div className="col col-7" data-label="">
                     
                   {loginData.userGroup == "SuperAdmin" ? (
-                      <td>
+                      <div>
                         <button
                           className="btn-icon"
                           onClick={() => goToUpdateRecipe(item)}
@@ -342,9 +342,9 @@ export default function RecipesList() {
                         >
                           <i className="fa fa-eye mx-2 text-primary"></i>
                         </button>
-                      </td>
+                      </div>
                     ) : loginData.userGroup == "SystemUser" ? (
-                      <td>
+                      <div>
                         <button
                           className="btn-icon"
                           onClick={() =>
@@ -358,7 +358,7 @@ export default function RecipesList() {
                         >
                           <i className="fa fa-eye mx-2 text-primary"></i>
                         </button>
-                      </td>
+                      </div>
                     ) : (
                       ""
                     )}
@@ -370,98 +370,7 @@ export default function RecipesList() {
       </ul>
       
     </div>
-          {/* <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Image</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Category</th>
-                <th scope="col">Tag</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {recipesList.length > 0 ? (
-                recipesList.map((item, index) => (
-                  <tr key={item.id}>
-                    <th scope="row"> {index + 1} </th>
-                    <td>{item.name}</td>
-                    <td>
-                      {item.imagePath ? (
-                        <img
-                          className="recipes-img"
-                          src={
-                            "https://upskilling-egypt.com:3006/" +
-                            item.imagePath
-                          }
-                          alt=""
-                        />
-                      ) : (
-                        <img className="recipes-img" src={nodata} alt="" />
-                      )}
-                    </td>
-                    <td>{item.price}</td>
-                    <td>{item.description}</td>
-                    <td>{item.category[0]?.name}</td>
-                    <td>{item.tag.name}</td>
-
-                    {loginData.userGroup == "SuperAdmin" ? (
-                      <td>
-                        <button
-                          className="btn-icon"
-                          onClick={() => goToUpdateRecipe(item)}
-                        >
-                          <i className="fa fa-edit mx-2 text-success"></i>
-                        </button>
-                        <button
-                          className="btn-icon"
-                          onClick={() => handleDeleteShow(item.id)}
-                        >
-                          <i className="fa fa-trash text-danger"></i>
-                        </button>
-                        <button
-                          className="btn-icon"
-                          onClick={() =>
-                            handleViewShow(
-                              item.id,
-                              item.name,
-                              item.description,
-                              item.imagePath
-                            )
-                          }
-                        >
-                          <i className="fa fa-eye mx-2 text-primary"></i>
-                        </button>
-                      </td>
-                    ) : loginData.userGroup == "SystemUser" ? (
-                      <td>
-                        <button
-                          className="btn-icon"
-                          onClick={() =>
-                            handleViewShow(
-                              item.id,
-                              item.name,
-                              item.description,
-                              item.imagePath
-                            )
-                          }
-                        >
-                          <i className="fa fa-eye mx-2 text-primary"></i>
-                        </button>
-                      </td>
-                    ) : (
-                      ""
-                    )}
-                  </tr>
-                ))
-              ) : (
-                <NoData />
-              )}
-            </tbody>
-          </table> */}
+          
           <nav
             aria-label="Page navigation example"
             className="d-flex justify-content-center"

@@ -140,7 +140,59 @@ export default function UsersList() {
               </div>
             </div>
           </div>
-          <table className="table mx-3">
+          <div className="categories-body">
+      <ul className="responsive-table-categories">
+        <li className="table-header">
+          <div className="col col-1">#</div>
+          <div className="col col-2">Name</div>
+          <div className="col col-3">Image</div>
+          <div className="col col-4">Email</div>
+
+          <div className="col col-5">Counrty</div>
+          <div className="col col-6">Phone Number</div>
+          <div className="col col-7">Group</div>
+          <div className="col col-8"></div>
+        </li>
+      </ul>
+
+      <ul className="responsive-table-categories">
+        
+        {usersList.length > 0 ? (
+                usersList.map((item, index) => (
+                  <li className="table-row">
+                  <div className="col col-1" data-label="#">{index + 1}</div>
+                  <div className="col col-2" data-label="Name :">{item.userName}</div>
+                  <div className="col col-3" data-label="Image :">{item.imagePath ? (
+                        <img
+                          className="recipes-img"
+                          src={
+                            "https://upskilling-egypt.com:3006/" +
+                            item.imagePath
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        <img className="recipes-img" src={nodata} alt="" />
+                      )}</div>
+                  <div className="col col-4" data-label="Email :">{item.email}</div>
+                  <div className="col col-5" data-label="Country :">{item.country}</div>
+                  <div className="col col-6" data-label="Phone Number :">{item.phoneNumber}</div>
+                  <div className="col col-7" data-label="Group :">{item.group.name}</div>
+                  <div className="col col-8" data-label="">
+                    
+                  <button className="btn-icon" onClick={() => handleDeleteShow(item.id)}>
+                        <i className="fa fa-trash text-danger"></i>
+                      </button>
+                  
+                  </div>
+                  </li>
+
+                ))): (<NoData/>)}
+         
+      </ul>
+      
+    </div>
+          {/* <table className="table mx-3">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -188,7 +240,7 @@ export default function UsersList() {
                 <NoData />
               )}
             </tbody>
-          </table>
+          </table> */}
           <nav
             aria-label="Page navigation example"
             className="d-flex justify-content-center"

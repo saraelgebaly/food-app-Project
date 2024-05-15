@@ -236,24 +236,34 @@ export default function CategoriesList() {
               </div>
             </div>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Date Creation</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div className="categories-body">
+            <ul className="responsive-table-categories">
+              <li className="table-header">
+                <div className="col col-1">#</div>
+                <div className="col col-2">Name</div>
+                <div className="col col-3">Creation Date</div>
+                <div className="col col-4"></div>
+              </li>
+            </ul>
+
+            <ul className="responsive-table-categories">
               {categoriesList.length > 0 ? (
                 categoriesList.map((item, index) => (
-                  <tr key={item.id}>
-                    <th scope="row"> {index + 1} </th>
-                    <td>{item.name} </td>
-                    <td>{item.creationDate} </td>
-                    <td>
-                      <button
+                  <li className="table-row">
+                    <div className="col col-1" data-label="#">
+                      {index + 1}
+                    </div>
+                    <div className="col col-2" data-label="Name :">
+                      {item.name}
+                    </div>
+                  
+                    <div className="col col-3" data-label="Creation Date :">
+                      {new Date(item.creationDate).toLocaleDateString()}
+                    </div>
+                    <div className="col col-4" data-label="">
+                  
+                        <div>
+                        <button
                         className="btn-icon"
                         onClick={() => handleEditShow(item.id, item.name)}
                       >
@@ -265,14 +275,17 @@ export default function CategoriesList() {
                       >
                         <i className="fa fa-trash text-danger"></i>
                       </button>
-                    </td>
-                  </tr>
+                        </div>
+                     
+                    </div>
+                  </li>
                 ))
               ) : (
                 <NoData />
               )}
-            </tbody>
-          </table>
+            </ul>
+          </div>
+       
           <nav
             aria-label="Page navigation example"
             className="d-flex justify-content-center"

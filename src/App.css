@@ -152,7 +152,9 @@ top: 7px !important;
 .col-7{
   flex-basis: 5%;
 }
-
+.col-8 {
+flex-basis: 5%;
+}
   /***************************************/
 
   @media all and (max-width: 650px) {
